@@ -12,7 +12,7 @@ class CarouselBreakpointInline(admin.StackedInline):
     model = CarouselBreakpoint
     extra = 0
 
-class CarouselPlugin(CMSPluginBase):
+class SlickCarouselPlugin(CMSPluginBase):
     """
     Main carousel plugin that parent for others plugin.
     Supossed one plugin - one slide, or support plugins that get list of ellements, see my filler folder galery
@@ -20,7 +20,7 @@ class CarouselPlugin(CMSPluginBase):
     model = Carousel
     render_template = "cmsplugin_slick/carousel.djhtml"
     module = 'Slick Carousel'
-    name = 'Carousel Plugin'
+    name = 'Slick Carousel'
     allow_children = True
     inlines = [CarouselBreakpointInline,]
     
@@ -59,7 +59,7 @@ class CarouselPlugin(CMSPluginBase):
     )
     
     def render(self, context, instance, placeholder):
-        context = super(CarouselPlugin, self).render(context, instance, placeholder)
+        context = super(SlickCarouselPlugin, self).render(context, instance, placeholder)
         slick_dict = {'infinite': instance.infinite,
                             'speed': instance.speed,
                             'dots': instance.dots, 'arrows': instance.arrows,
@@ -96,7 +96,7 @@ class CarouselElementWrapperPlugin(CMSPluginBase):
     module = 'Slick Carousel'
     name = 'Plugins Wrapper'
     #require_parent = True
-    parent_classes = ['CarouselPlugin']
+    parent_classes = ['SlickCarouselPlugin']
     allow_children = True
     
 class CarouselImageFolderPlugin(CMSPluginBase):
@@ -105,7 +105,7 @@ class CarouselImageFolderPlugin(CMSPluginBase):
     module = 'Slick Carousel'
     name = 'Image Folder Carousel'
     #require_parent = True
-    parent_classes = ['CarouselPlugin']
+    parent_classes = ['SlickCarouselPlugin']
         
     def get_folder_images(self, folder, user):
         qs_files = folder.files.instance_of(Image)
@@ -128,6 +128,6 @@ class CarouselImageFolderPlugin(CMSPluginBase):
         return context
     
     
-plugin_pool.register_plugin(CarouselPlugin)
+plugin_pool.register_plugin(SlickCarouselPlugin)
 plugin_pool.register_plugin(CarouselElementWrapperPlugin)
 plugin_pool.register_plugin(CarouselImageFolderPlugin)
